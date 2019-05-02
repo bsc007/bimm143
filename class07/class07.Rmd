@@ -2,7 +2,7 @@
 title: "class07"
 author: "Benjamin Cho"
 date: "April 23, 2019"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
@@ -95,7 +95,7 @@ length(x) != length(y2)
 ```
 now lets try the both_na2 function because it was a different length
 ```{r}
-both_na2(x,y2)
+#both_na2(x,y2)
 ```
 
 ```{r}

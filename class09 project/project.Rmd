@@ -2,7 +2,7 @@
 title: "class09 project"
 author: "Benjamin Cho"
 date: "April 30, 2019"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
@@ -17,7 +17,6 @@ wisc.df
 
 ```{r}
 wisc.data <- as.matrix(wisc.df[,3:32])
-wisc.data
 ```
 
 ```{r}
@@ -32,8 +31,7 @@ colnames(wisc.data)
 grep("_mean", colnames(wisc.data))
 length(grep("_mean", colnames(wisc.data)))
 #Q3. How many of the observations have a malignant diagnosis?
-grep("1", diagnosis)
-length(grep("1", diagnosis))
+
 ```
 
 
