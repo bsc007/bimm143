@@ -1,0 +1,42 @@
+---
+title: "class06 homework"
+author: "Benjamin Cho"
+date: "April 18, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+install.packages(“bio3d”)
+
+
+
+#This function plots the protein drug interaction for any protein PDB data. 
+#Plug in 4 character accession code into the function.
+
+
+```{r}
+library(bio3d)
+#input four character accession code in "" for x
+plot_interactions <- function(x) {
+  a1 <- read.pdb(x)
+  a2 <- trim.pdb(a1, chain="A", elety="CA")
+  plotb3(a2$atom$b,sse=a2, typ="l", ylab="Bfactor")
+}
+#The output of the function should be a graph
+```
+
+
+
+
+```{r}
+#inputs
+plot_interactions("1AKE")
+plot_interactions("4AKE")
+plot_interactions("1E4Y")
+```
+
+
+
