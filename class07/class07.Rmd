@@ -1,0 +1,197 @@
+---
+title: "class07"
+author: "Benjamin Cho"
+date: "April 23, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# fUNCTIONS REVISTED
+
+```{r}
+source("http://tinyurl.com/rescale-R")
+```
+
+```{r}
+rescale(1:10)
+```
+
+Try the rescale2() function that catches string inputs
+```{r}
+rescale2(c(1:10), "string")
+```
+
+```{r}
+x <- c( 1, 2, NA, 3, NA)
+y <- c(NA, 3, NA, 3, 4)
+```
+
+```{r}
+is.na(x)
+```
+
+```{r}
+is.na(y)
+```
+
+```{r}
+is.na(x) & is.na(y)
+```
+
+Take the sum() to find out how many TRUE values we have and thus how many NAs we had in both x and y
+
+
+```{r}
+sum(is.na(x) & is.na(y))
+```
+
+Now I can make this into our first function
+```{r}
+both_na <- function(x,y) {
+  sum(is.na(x) & is.na(y))
+}
+```
+
+```{r}
+both_na(x,c(NA,3,NA,2, NA))
+```
+
+Test
+```{r}
+x <- c(NA, NA, NA)
+y1 <- c( 1, NA, NA)
+y2 <- c( 1, NA, NA, NA)
+```
+
+```{r}
+both_na(x,y2)
+
+#it matches the shorter object to make it the same length of the longer one. It will recycle back the shorter object
+```
+
+```{r}
+y3 <- c(1, NA, NA, NA, NA, NA)
+both_na(x,y3)
+```
+
+```{r}
+#tell me if they are equal
+3==3
+
+3>2
+# not equal
+3 != 2
+```
+
+```{r}
+length(x)
+```
+```{r}
+length(x) != length(y2)
+```
+now lets try the both_na2 function because it was a different length
+```{r}
+both_na2(x,y2)
+```
+
+```{r}
+which(c(F,F,T,F, T))
+
+#which parts of the vector are true
+which(is.na(c(1,2,NA, 4)))
+```
+
+```{r}
+x <- c( 1, 2, NA, 3, NA)
+y <- c(NA, 3, NA, 3, NA)
+
+both_na3(x,y)
+```
+
+
+# Intersect functions
+
+```{r}
+df1
+```
+
+```{r}
+df2
+```
+
+```{r}
+x <- df1$IDs
+y <- df2$IDs
+
+x
+y
+```
+
+```{r}
+?intersect
+```
+```{r}
+intersect(x,y)
+```
+
+```{r}
+which(x %in% y)
+```
+```{r}
+y[y%in%x]
+```
+A working snippet
+
+Use Rstudio shortcut CODE > EXTRACT FUNCTION to turn our code into a function
+```{r}
+gene_intersect <- function(x, y) {
+  cbind( x[ x %in% y ], y[ y %in% x ] )
+}
+```
+
+```{r}
+gene_intersect(df1$exp,df1$exp)
+```
+gene_intersect2(df1,df2)
+```{r}
+gene_intersect2(df1,df2)
+```
+
+```{r}
+gene_intersect3(df1,df2)
+```
+
+
+
+```{r}
+merge(df1,df2,by="IDs")
+```
+
+Find the average grade dropping the worst homework score
+
+```{r}
+grade <- function(x) {
+  exclude<-x[x != min(x)]
+  mean(exclude)
+}
+```
+
+```{r}
+bob<- c(100,100,100,100,100, 100, 100, 90)
+grade(bob)
+```
+
+You install.package a package once, but you have to use library to be able to retrieve the function
+```{r}
+
+```
+
+
+
+
+
+
