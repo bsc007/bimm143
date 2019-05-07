@@ -1,0 +1,193 @@
+---
+title: "Untitled"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## PDB database
+
+```{r}
+db <- read.csv("data export summary.csv", row.names = 1)
+head(db)
+```
+
+What percent are x-Ray?
+```{r}
+(db$Total/sum(db$Total))*100
+
+```
+
+What percent are proteins?
+```{r}
+(sum(db$Proteins)/sum(db$Total))*100
+```
+
+We can copy a data set and use datapasta to make a dataset
+```{r}
+library(datapasta)
+
+tmp <- data.frame(stringsAsFactors=FALSE, 
+   Experimental.Method = c("X-Ray", "NMR", "Electron Microscopy", "Other",
+                           "Multi Method", "Total"),
+              Proteins = c(126880, 11062, 2277, 256, 129, 140604),
+         Nucleic.Acids = c(2012, 1279, 31, 4, 5, 3331),
+    ProteinComplex = c(6547, 259, 800, 6, 2, 7614),
+                 Other = c(8, 8, 0, 13, 1, 30),
+                 Total = c(135447, 12608, 3108, 279, 137, 151579)
+)
+
+
+
+
+
+
+
+```
+
+```{r}
+
+```
+
+
+```{r}
+library(bio3d)
+
+pdb <- read.pdb("1hsg.pdb")
+pdb
+```
+
+```{r}
+example("plot.bio3d")
+```
+
+```{r}
+attributes(pdb)
+```
+
+```{r}
+head(pdb$atom)
+```
+
+```{r}
+pdb$xyz
+```
+
+
+#select all C-alpha atoms (return their indices)
+```{r}
+ca.inds <- atom.select(pdb, "calpha")
+ca.inds
+
+```
+
+
+```{r}
+# Print details of the first few selected atoms
+head( pdb$atom[ca.inds$atom, ] )
+
+```
+
+
+```{r}
+# And selected xyz coordinates
+head( pdb$xyz[, ca.inds$xyz] )
+```
+
+
+
+
+```{r}
+inds <- atom.select(pdb, "protein")
+
+```
+
+```{r}
+pdb$atom[inds$atom,]
+```
+
+
+```{r}
+atom.select(pdb, "protein", value=TRUE)
+
+```
+
+```{r}
+atom.select(pdb, "ligand", value=TRUE)
+```
+
+
+```{r}
+prot.pdb <- atom.select(pdb,"protein", value=TRUE)
+write.pdb(prot.pdb, file="1hsg_protein.pdb")
+
+```
+
+```{r}
+lig.pdb <- atom.select(pdb,"ligand", value=TRUE)
+write.pdb(lig.pdb, file="1hsg_lig.pdb")
+
+```
+
+
+```{r}
+aa <- get.seq("1ake_A")
+# Blast or hmmer search 
+b <- blast.pdb(aa)
+```
+```{r}
+# Plot a summary of search results
+hits <- plot(b)
+```
+
+```{r}
+head(hits$pdb.id)
+```
+
+
+
+```{r}
+# Fetch PDBs
+files <- get.pdb(hits$pdb.id, path="pdbs", split=TRUE, gzip=TRUE)
+# Align structures
+pdbs <- pdbaln(files)
+# Vector containing PDB codes
+ids <- basename.pdb(pdbs$id)
+# Draw schematic alignment
+plot(pdbs, labels=ids)
+```
+
+
+```{r}
+# Calculate sequence conservation
+cons <- conserv(pdbs, method="entropy22")
+# SSE annotations
+sse <- pdbs2sse(pdbs, ind=1, rm.gaps=FALSE)
+# Plot conservation per residue
+plotb3(cons, sse=sse, ylab="Sequence entropy")
+```
+
+
+
+```{r}
+# find invariant core
+core <- core.find(pdbs)
+# superimpose all structures to core
+pdbs$xyz = pdbfit(pdbs, core)
+# Perform PCA
+pc.xray <- pca(pdbs)
+```
+
+
+```{r}
+# Calculate RMSD
+rd <- rmsd(pdbs)
+# Structure-based clustering
+hc.rd <- hclust(dist(rd))
+grps.rd <- cutree(hc.rd, k=3)
+plot(pc.xray, 1:2, col="grey50", bg=grps.rd, pch=21, cex=1)
+
+```
+
