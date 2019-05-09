@@ -1,0 +1,86 @@
+---
+title: "Class12"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(bio3d)
+```
+
+
+```{r}
+file.name <- get.pdb("1hsg")
+```
+
+```{r}
+hiv <- read.pdb(file.name)
+hiv
+```
+
+Q1: What is the name of the two non protein resid values in this structure? What does resid
+correspond to and how would you get a listing of all reside values in this structure? 
+HOH, MK1
+
+```{r}
+prot <- trim.pdb(hiv, "protein")
+lig <-  trim.pdb(hiv, "ligand")
+```
+
+
+
+```{r}
+write.pdb(prot, file="1hsg_protein.pdb")
+write.pdb(lig, file="1hsg_ligand.pdb")
+```
+
+Load protein file onto autodock
+
+
+Q2: Can you locate the binding site visually? Note that
+crystal structures normally lack hydrogen atoms, why?
+They're too small
+
+
+Q3: Look at the charges. Does it make sense (e.g. based on your knowledge of the
+physiochemical properties of amino acids)?
+Yes, the Carbons are positively charged?
+
+
+```{r}
+library(bio3d)
+```
+
+
+```{r}
+res <- read.pdb("all.pdbqt", multi=TRUE)
+```
+
+```{r}
+write.pdb(res, "results.pdb")
+```
+
+```{r}
+# res <- read.pdb("all.pdbqt", multi=TRUE)
+ori <- read.pdb("ligand")
+rmsd(ori, res)
+```
+
+
+
+```{r}
+library(bio3d)
+pdb <- read.pdb("1HEL")
+modes <- nma(pdb)
+plot(modes, sse=pdb)
+
+```
+
+```{r}
+mktrj(modes, mode=7, file="nma_7.pdb")
+```
+
