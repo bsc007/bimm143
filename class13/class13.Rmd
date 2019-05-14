@@ -1,0 +1,62 @@
+---
+title: "class13"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+#Read CSV from ensemble
+mxl <- read.csv("373531-SampleGenotypes-Homo_sapiens_Variation_Sample_rs8067378.csv")
+mxl
+```
+
+
+```{r}
+table(mxl$genotype..forward.strand.)
+```
+
+```{r}
+table(mxl$Genotype..forward.strand.)/nrow(mxl))*100
+```
+
+## Quality Scores in FASTQ files
+
+The fourth line 
+
+```{r}
+library(seqinr)
+library(gtools)
+phred <- asc( s2c("DDDDCDEDCDDDDBBDDDCC@") ) - 33
+phred
+```
+
+
+```{r}
+expr <- read.table("rs8067378_ENSG00000172057.6.txt")
+```
+
+```{r}
+summary(expr)
+```
+
+```{r}
+summary(expr$exp[expr$geno == "A/A"])
+```
+```{r}
+summary(expr$exp[expr$geno == "A/G"])
+```
+
+```{r}
+summary(expr$exp[expr$geno == "G/G"])
+```
+
+
+```{r}
+boxplot(exp ~ geno ,data = expr)
+#plotting expression value by genotype
+```
+
