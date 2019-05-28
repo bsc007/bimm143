@@ -224,12 +224,3 @@ print(paste("Total number of significant genes:", length(sig_genes)))
 write.table(sig_genes, file="significant_genes.txt", row.names=FALSE, col.names=FALSE, quote=FALSE)
 ```
 
-
-```{r}
-colData["condition"]
-```
-
-```{r}
-countData["ENSG00000279457"]
-```
-
