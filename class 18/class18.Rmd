@@ -1,0 +1,111 @@
+---
+title: "Class 18"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Section 1
+
+Q1. How many Cases (i.e. patient samples) have been found to have p53 mutations
+4008
+Q2. What are the top 6 misssense mutations found in this gene? 
+Arginine mutations
+
+Which domain of the protein (as annotated by PFAM) do these mutations reside in?
+DNA binding domain
+
+What are the top 6 primary sites (i.e. cancer locations such as Lung, Brain, etc.) with p53 mutations and how many primary sites have p53 mutations been found in? 
+lung, ovary, brain, breast, colon, stomach
+
+Q5. What is the most frequentely mutated position associated with cancer in the KRas protein (i.e. the amino acid with the most mutations)?
+G12D
+
+Q6. Are KRas mutations common in Pancreatic Adenocarcinoma (i.e. is the Pancreas a common ‘primary site’ for KRas mutations?).
+Pancreas is common
+Q6. What is the ‘TGCA project’ with the most KRas mutations?
+TCGA-COAD
+Q7. What precent of cases for this ‘TGCA project’ have KRas mutations and what precent of cases have p53 mutations? 
+HINT: Placing your mouse over the project bar in the Cancer Distribution panel will bring up a tooltip with useful summary data.
+
+Q8. How many TGCA Pancreatic Adenocarcinoma cases (i.e. patients from the TCGA-PAAD project) have RNA-Seq data available?
+
+
+
+
+```{r}
+##BiocManager::install(c("GenomicDataCommons", "TCGAbiolinks", "maftools"))
+```
+
+```{r}
+library(GenomicDataCommons)
+library(TCGAbiolinks)
+library(maftools)
+```
+
+```{r}
+GenomicDataCommons::status()
+```
+
+```{r}
+cases_by_project <- cases() %>%
+  facet("project.project_id") %>%
+  aggregations()
+head(cases_by_project)
+```
+
+```{r}
+which(x$key == "TCGA-PAAD")
+```
+
+```{r}
+x <- cases_by_project$project.project_id
+
+colvec <- rep("lightblue", nrow(x))
+colvec[29] <- "red"
+
+# Make a custom color vector for our plot
+
+
+# Plot with 'log' for y axis and rotate labels with 'las
+par(mar=c(8,4,4,2))
+barplot(x$doc_count, names.arg=x$key, log="y", col=colvec, las=2)
+```
+
+
+##Section 2
+
+
+```{r}
+library(bio3d)
+seqs <- read.fasta("lecture18_partsequences.fa")
+seqs
+```
+
+```{r}
+## Calculate positional identity scores
+ide <- conserv(seqs$ali, method="identity")
+mutant.sites <- which(ide < 1) 
+
+## Exclude gap possitions from analysis
+gaps <- gap.inspect(seqs)
+mutant.sites <- mutant.sites[mutant.sites %in% gaps$f.inds]
+
+mutant.sites
+```
+
+Now get the 9-mer sequences
+
+```{r}
+start.site <- mutant.sites - 8
+end.site <- mutant.sites + 8 
+```
+
+get tumor sequences
+
+```{r}
+seqs$ali[2, start.site[1]:end.site[1]]
+```
+
