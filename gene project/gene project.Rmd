@@ -1,0 +1,55 @@
+---
+title: "Gene Project"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(bio3d)
+```
+
+
+```{r}
+adarb1 <- read.fasta("muscle alignment")
+```
+
+```{r}
+seqid.adarb1 <- seqidentity(adarb1)
+seqid.adarb1
+```
+```{r}
+rowSums(seqid.adarb1)
+```
+
+
+```{r}
+heatmap(seqid.adarb1, margins=c(12,12))
+```
+
+```{r}
+adarb.con <- consensus(adarb1)
+```
+
+
+```{r}
+adarbblast <- blast.pdb(adarb.con$seq)
+```
+```{r}
+blast.pdb(adarb.con$seq)
+```
+
+```{r}
+pdb.annotate(adarbblast$hit.tbl$subjectids)
+```
+
+```{r}
+adarbblast[["hit.tbl"]][["identity"]]
+```
+
+```{r}
+ adarbblast[["hit.tbl"]][["evalue"]]
+```
+
