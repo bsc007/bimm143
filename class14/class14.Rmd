@@ -48,6 +48,7 @@ Determine the mean count values for all genes across control experiments
 
 ```{r}
 control.mean <- rowSums(counts[,control$id])/length(control$id)
+names(control.mean) <- counts$ensgene
 ```
 
 Do the same for the drug treated experiments
@@ -96,9 +97,13 @@ They come from zeros in the data.
 
 
 ```{r}
-to.rm <- unique(which(meancounts[,1:2] == 0, arr.ind=TRUE) [,1])
+zero.vals <- which(meancounts[,1:2]==0, arr.ind=TRUE)
+
+to.rm <- unique(zero.vals[,1])
+mycounts <- meancounts[-to.rm,]
+head(mycounts)
 ```
-This line is complicated
+
 
 
 ```{r}
@@ -129,13 +134,16 @@ anno <- read.csv("data/annotables_grch38.csv")
 head(anno)
 ```
 
+```{r}
+head(mycounts)
+```
 
 
 use the merge function to add the annotation data from the 'anno' object to our RNA-Seq results in 'mycounts'
 ```{r}
 # use the merge 
 mycounts.anno <- merge(mycounts, anno, by.x="row.names", by.y= "ensgene")
-View(mycounts.anno)
+mycounts.anno
 ```
 
 Install these bioconductor annotation
