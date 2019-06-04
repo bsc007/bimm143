@@ -135,7 +135,7 @@ use the merge function to add the annotation data from the 'anno' object to our 
 ```{r}
 # use the merge 
 mycounts.anno <- merge(mycounts, anno, by.x="row.names", by.y= "ensgene")
-mycounts.anno
+View(mycounts.anno)
 ```
 
 Install these bioconductor annotation
@@ -151,12 +151,16 @@ library("org.Hs.eg.db")
 columns(org.Hs.eg.db)
 ```
 
+```{r}
+head(mycounts)
+```
+
 
 We will use the **mapIds()** function from the bioconductor to add annotation data to our results
 ```{r}
 mycounts$symbol <- mapIds(org.Hs.eg.db, 
        keys=row.names(mycounts),  # The gene neames in our dataset
-       keytype="ENSEMBL",         # Format of our gene names
+      keytype="ENSEMBL",         # Format of our gene names
        column="SYMBOL")           # What new data do we want to add
 ```
 

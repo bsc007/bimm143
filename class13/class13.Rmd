@@ -20,7 +20,7 @@ table(mxl$genotype..forward.strand.)
 ```
 
 ```{r}
-table(mxl$Genotype..forward.strand.)/nrow(mxl))*100
+#table(mxl$Genotype..forward.strand.)/nrow(mxl))*100
 ```
 
 ## Quality Scores in FASTQ files

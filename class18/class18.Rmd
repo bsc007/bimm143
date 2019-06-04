@@ -57,7 +57,7 @@ head(cases_by_project)
 ```
 
 ```{r}
-which(x$key == "TCGA-PAAD")
+#which(x$key == "TCGA-PAAD")
 ```
 
 ```{r}
@@ -80,7 +80,7 @@ barplot(x$doc_count, names.arg=x$key, log="y", col=colvec, las=2)
 
 ```{r}
 library(bio3d)
-seqs <- read.fasta("lecture18_partsequences.fa")
+seqs <- read.fasta("lecture18_sequences.fa")
 seqs
 ```
 
