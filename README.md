@@ -3,8 +3,8 @@
 This is my classwork from [BIMM 143 Spring 2019](https://bioboot.github.io/bimm143_S19/) at UCSD
 
 - class 05: [R basics, data structures and data input](https://github.com/bsc007/bimm143/blob/master/class05/class05.md)  
-- class 06: [R graphics, generating plots with R] (https://github.com/bsc007/bimm143/blob/master/class06/class06.md)  
-- class 07: [Using CRAN and Bioconductor Packages] (https://github.com/bsc007/bimm143/blob/master/class07/class07.md)  
+- class 06: [R graphics, generating plots with R](https://github.com/bsc007/bimm143/blob/master/class06/class06.md)  
+- class 07: [Using CRAN and Bioconductor Packages](https://github.com/bsc007/bimm143/blob/master/class07/class07.md)  
 - class 08: [Unsupervised Machine Learning, Principle Component Analysis](https://github.com/bsc007/bimm143/blob/master/Class08/class08.md)  
 - class 09: [Unsupervised Machine Learning Mini Project](https://github.com/bsc007/bimm143/blob/master/class09/project.md)  
 - class 10: [Find a Gene Project](https://github.com/bsc007/bimm143/blob/master/gene%20project/gene_project.md)
