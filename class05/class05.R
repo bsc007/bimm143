@@ -2,7 +2,7 @@
 #' title: "Crop Analysis Q3 2013"
 #' author: "John Smith"
 #' date: "May 3rd, 2014"
-output: github_document
+#' output: github_document
 #' ---
 
 # Class 5 R graphics
